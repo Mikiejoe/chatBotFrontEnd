@@ -6,6 +6,7 @@ const Messages = [];
 
 function HomePage() {
   const chatContainerRef = useRef(null);
+  const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([
     {
       role: "system",
@@ -21,6 +22,7 @@ function HomePage() {
   }, [messages]);
 
   const sendMessage = () => {
+    setLoading(true);
     if (newMessage.trim() === "") return; // Prevent sending empty messages
     console.log(newMessage);
     const message = {
@@ -35,25 +37,24 @@ function HomePage() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ messages:newMessages }),
+      body: JSON.stringify({ messages: newMessages }),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data.messages);
         setMessages(data.messages);
       });
+    setLoading(false);
   };
   const filteredMessages = messages.slice(1); // Remove the system message from the chat
 
   return (
     <div className="h-[100vh] w-[100vw] pt-8 overflow-x-hidden bg-gray-100">
-      <div
-        className=" px-8 h-[78vh] overflow-y-auto"
-        ref={chatContainerRef}
-      >
+      <div className=" px-8 h-[78vh] overflow-y-auto" ref={chatContainerRef}>
         {filteredMessages.map((message) => (
           <MessageCard message={message} />
         ))}
+        {/* {loading && <div className="animate-spin rounded-full h-3 w-2 border-t-2 border-b-2 border-blue-500"></div>} */}
       </div>
 
       <div className="px-8 flex items-center justify-center w-full h-[80px] bg-white">
@@ -75,6 +76,7 @@ function HomePage() {
           />
         </div>
       </div>
+      <p className="text-center text-gray-500">itakua fty</p>
     </div>
   );
 }
