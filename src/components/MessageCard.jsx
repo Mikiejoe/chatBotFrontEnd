@@ -1,13 +1,24 @@
 import React from "react";
+import { MessageBox } from "react-chat-elements";
 
 function MessageCard({ message }) {
   const sender = message.role === "user";
-  const cardStyle = sender ? "rounded-bl-2xl float-right": "float-left rounded-br-2xl"
+  const cardStyle = sender
+    ? "float-right"
+    : "float-left";
   return (
-    <div
-      className={`border-[1px] p-2 w-[80%] border-blue-400 mb-4 rounded-tl-2xl rounded-tr-2xl ${cardStyle}`}
-    >
-      <p>{message.content}</p>
+    <div className={`mb-2 flex ${cardStyle} ${sender?"pl-2":"pr-2"}`}>
+      <MessageBox
+        position={sender ? "right" : "left"}
+        type={"text"}
+        text={message.content}
+        data={{
+          status: {
+            click: false,
+            loading: 0,
+          },
+        }}
+      />
     </div>
   );
 }
