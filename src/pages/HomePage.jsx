@@ -19,7 +19,7 @@ function HomePage() {
     <div>
       <div className="p-2 bg-red-500"></div>
       {chatList.map((chat, index) => (
-        <Link to={`chats${chat.id}`} state={chat}>
+        <Link to={`chats/${chat.id}`} key={index} state={chat}>
           <div className="bg-green-400 p-4">{chat.date.getFullYear}</div>
         </Link>
       ))}

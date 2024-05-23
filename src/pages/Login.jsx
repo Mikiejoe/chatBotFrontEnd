@@ -36,7 +36,7 @@ function Login() {
   return (
     <div className="md:grid grid-cols-2">
         <div className="bg-red-500  hidden items-center justify-center md:flex">dfghj</div>
-        <div className="bg-gray-300 h-screen flex-col gap-4 px-8 sm:px-16 md:px-24 flex items-center justify-center">
+        <div className="bg-gray-300 h-screen flex-col gap-4 px-8 sm:px-16 md:px-18 flex items-center justify-center">
       <div className="text-center">
         <h1 className="text-xl font-bold font-mono bg-blue-600 px-2 py-1 rounded-lg">Itakua Fty</h1>
         <h1 className="text-xl font-bold font-serif">Login</h1>
@@ -77,10 +77,10 @@ function Login() {
         </div>
       </form>
       <div className="flex w-full gap-2 justify-end">
-        <p className="flex-2">Dont have an account?</p>
+        <p className="flex-2">Dont have an account?
         <Link to={"/register"} className="cursor-pointer text-blue-500">
           Register
-        </Link>
+        </Link></p>
       </div>
 
       <div className="w-full gap-2 flex items-center text-center">

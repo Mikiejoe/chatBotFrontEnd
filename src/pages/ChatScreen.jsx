@@ -66,7 +66,10 @@ function ChatScreen() {
   const [messages, setMessages] = useState([...Messages]);
   const [newMessage, setNewMessage] = useState("");
   const location = useLocation();
-  const {title,id} = location.state;
+  if (!location.state) {
+    window.location.href = "/";
+  }
+  const {title,id} = location.state;            
   console.log("state",title,id)
   useEffect(() => {
     // Scroll to the bottom of the chat container whenever messages change
@@ -101,7 +104,7 @@ function ChatScreen() {
     setLoading(false);
   };
   const filteredMessages = messages.slice(1); // Remove the system message from the chat
-
+  
   return (
     <div className="h-[100vh] w-[100vw] overflow-x-hidden bg-gray-100">
       <div className="h-14 px-4 py-2 flex items-center gap-2 shadow-lg bg-gray-400">
