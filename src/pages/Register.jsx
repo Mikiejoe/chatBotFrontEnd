@@ -31,7 +31,7 @@ function Login() {
       username: username,
     });
 
-    let response = await fetch("http://localhost:5000/auth/signup", {
+    let response = await fetch("https://chat-bot-azure-chi.vercel.app/auth/signup", {
       method: "POST",
       body: bodyContent,
       headers: headersList,

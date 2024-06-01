@@ -16,7 +16,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(password,email);
-    const res = await fetch("http://localhost:5000/auth/login",{
+    const res = await fetch("https://chat-bot-azure-chi.vercel.app/auth/login",{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
