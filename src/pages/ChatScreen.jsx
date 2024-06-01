@@ -66,45 +66,88 @@ function ChatScreen() {
   const [messages, setMessages] = useState([...Messages]);
   const [newMessage, setNewMessage] = useState("");
   const location = useLocation();
+  const userData = JSON.parse(localStorage.getItem("user"));
+  
+  
   if (!location.state) {
     window.location.href = "/";
   }
-  const {title,id} = location.state;            
-  console.log("state",title,id)
+  const { id } = location.state;
+  console.log("state", id);
+  // const prodUrl = "http://localhost:5000/chats/" + id;
+  const prodUrl = "https://chat-bot-azure-chi.vercel.app/chat/"+id;
+  
   useEffect(() => {
+    getMessages();
+    console.log("helllo")
+  }, []);
+  useEffect(() => {
+    // getMessages();
+    console.log("helllo")
     // Scroll to the bottom of the chat container whenever messages change
     chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
   }, [messages]);
-
+  
   const sendMessage = async () => {
-    setLoading(true);
-
+    // setLoading(true);
+    console.log("loadindfghjkl",loading)
     if (newMessage.trim() === "") return;
     const message = {
       role: "user",
       content: newMessage,
     };
-    const newMessages = [...messages, message];
-    setMessages(newMessages);
-    setNewMessage("");
+    // const newMessages = [...messages, message];
+    // setMessages(newMessages);
+    // setNewMessage("");
+
+    
     try {
-      const res = await fetch("https://chat-bot-azure-chi.vercel.app/chat", {
+      
+      console.log(userData.accessToken);
+      const res = await fetch(prodUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${userData.accessToken}`,
         },
-        body: JSON.stringify({ messages: newMessages }),
+        body: JSON.stringify({ content: newMessage, role: "user" }),
       });
       const data = await res.json();
-      console.log(data  )
-      setMessages(data.messages);
+      const newMessages = [...messages, data];
+      // console.log("hellloworkd");
+      // setMessages(newMessages);
+      setNewMessage("")
+      await getMessages()
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      setLoading(false)
     } catch (error) {
       console.log("error");
     }
     setLoading(false);
   };
-  const filteredMessages = messages.slice(1); // Remove the system message from the chat
-  
+
+  const getMessages = async () => {
+    console.log("hello1234")
+    const res = await fetch(prodUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userData.accessToken}`,
+      },
+    });
+    console.log("hello!")
+    if (!res.ok) console.log("error")
+    const data = await res.json()
+    console.log("message",data)
+
+    setMessages(data)
+    
+  };
+  // const mess = []
+  const filteredMessages = messages.splice(1); // Remove the system message from the chat
+  // useEffect(()=>{
+    
+  // })
   return (
     <div className="h-[100vh] w-[100vw] overflow-x-hidden bg-gray-100">
       <div className="h-14 px-4 py-2 flex items-center gap-2 shadow-lg bg-gray-400">
@@ -112,7 +155,7 @@ function ChatScreen() {
           <IoMdPerson size={48} color="gray" />
         </div>
         <div>
-          <p className="font-bold">{title}</p>
+          {/* <p className="font-bold">{title}</p> */}
           <div className="flex items-center gap-1">
             <div className="p-1 bg-green-500 w-1 h-1 rounded-full"></div>
             <p>Online</p>
@@ -120,9 +163,9 @@ function ChatScreen() {
         </div>
       </div>
       <div className="h-[78.3vh] overflow-y-auto" ref={chatContainerRef}>
-              {filteredMessages.map((message, index) => (
-                <MessageCard key={index} message={message} />
-              ))}
+        {filteredMessages.map((message, index) => (
+          <MessageCard key={index} message={message} />
+        ))}
         {loading && (
           <MessageBox
             position={"left"}

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { useAuth } from "../hooks/authContext";
 import { useNavigate } from "react-router-dom";
+// import {baseUrl} from "../utils/constants"
 
 function Login() {
   const {login} = useAuth()
@@ -11,12 +12,16 @@ function Login() {
   const [loading, setLoading] = useState(true);
   const [submit, setSubmit] = useState(false);
   const navigate = useNavigate()
+  // console.log(baseUrl)
+  
 
  
   const handleSubmit = async (e) => {
+    const baseProdUrl = "https://chat-bot-azure-chi.vercel.app"
+    // const baseProdUrl = "http://localhost:5000"
     e.preventDefault();
     console.log(password,email);
-    const res = await fetch("https://chat-bot-azure-chi.vercel.app/auth/login",{
+    const res = await fetch(`${baseProdUrl}/auth/login`,{
       method: "POST",
       headers: {
         "Content-Type": "application/json",

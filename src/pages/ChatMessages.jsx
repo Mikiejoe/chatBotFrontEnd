@@ -15,7 +15,7 @@ import { IoMdHome } from "react-icons/io";
 function ChatMessages() {
   const [show, setShow] = useState(false);
   const icon = <IoMdHome />;
-  return (
+  return ( 
     <div>
       <MessageBox
   position={'right'}
