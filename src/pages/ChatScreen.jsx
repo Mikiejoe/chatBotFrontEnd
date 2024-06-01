@@ -120,9 +120,9 @@ function ChatScreen() {
         </div>
       </div>
       <div className="h-[78.3vh] overflow-y-auto" ref={chatContainerRef}>
-        {filteredMessages.map((message, index) => (
-          <MessageCard key={index} message={message} />
-        ))}
+              {filteredMessages.map((message, index) => (
+                <MessageCard key={index} message={message} />
+              ))}
         {loading && (
           <MessageBox
             position={"left"}

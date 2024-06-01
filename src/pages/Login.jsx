@@ -1,19 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
+import { useAuth } from "../hooks/authContext";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const {login} = useAuth()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(true);
   const [submit, setSubmit] = useState(false);
+  const navigate = useNavigate()
 
  
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement logic logic
-    // if success:
-    window.location.href = "/home"
+    console.log(password,email);
+    const res = await fetch("http://localhost:5000/auth/login",{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    })
+    const data = await res.json()
+    console.log(data)
+    if(res.ok){
+      login(data);
+      navigate("/")
+      // console.log(isAuthenticated);
+    }
+    
+
+    // window.location.href = "/"
   };
 
   const handlePasswordChange = (e) => {

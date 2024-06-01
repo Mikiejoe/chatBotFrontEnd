@@ -8,23 +8,29 @@ import ChatScreen from "./pages/ChatScreen";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { AuthProvider } from "./hooks/authContext";
-import {NotFound} from "./pages/NotFound";
+import { NotFound } from "./pages/NotFound";
+import PublicRoute from "./components/PublicRoute";
 function App() {
   return (
-    // <BrowserRouter>
-    // <Routes>
-    //   <Route path="/" element={<LandingPage/>}/>
-    //   <Route path="/chats" element={<HomePage/>}/>
-    //   <Route path="/chats/:id" element={<ChatScreen/>}/>
-    //   <Route path="/login" element={<Login/>}/>
-    //   <Route path="/register" element={<Register/>}/>
-    // </Routes>
-    // </BrowserRouter>
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          {/* <Route path="/" element={<HomePage />} /> */}
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <PublicRoute>
+                <Register />
+              </PublicRoute>
+            }
+          />
           <Route
             path="/"
             element={
