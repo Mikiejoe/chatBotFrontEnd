@@ -20,7 +20,7 @@ function ChatScreen() {
   }
   const { id } = location.state;
   // const prodUrl = "http://localhost:5000/chats/" + id;
-  const prodUrl = "https://chat-bot-azure-chi.vercel.app/chat/"+id;
+  const prodUrl = "https://chat-bot-azure-chi.vercel.app/chats/"+id;
   
   useEffect(() => {
     getMessages();
