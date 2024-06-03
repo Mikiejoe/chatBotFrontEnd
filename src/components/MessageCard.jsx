@@ -7,7 +7,7 @@ function MessageCard({ message }) {
     ? "float-right"
     : "float-left";
   return (
-    <div className={`mb-2 flex ${cardStyle} ${sender?"pl-2":"pr-2"}`}>
+    <div className={`mb-2 flex ${cardStyle} float-right flex justify-${sender?"end":"start"} ${sender?"pl-2":"pr-2"}`}>
       <MessageBox
         position={sender ? "right" : "left"}
         type={"text"}

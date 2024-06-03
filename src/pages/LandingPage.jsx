@@ -28,7 +28,7 @@ function LandingPage() {
     });
     if (!res.ok) console.log("error")
     const data = await res.json()
-  console.log(data)
+  console.log(data.chats)
   setChats(data.chats.reverse())
    if(data.chats.length>0){
     console.log()
