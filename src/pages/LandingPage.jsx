@@ -41,7 +41,7 @@ function LandingPage() {
   const handleCreateChat = async () => {
     
     console.log(userData.accessToken);
-    const res = await fetch("http://localhost:5000/chats", {
+    const res = await fetch(prodUrl, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${userData.accessToken}`,
@@ -58,6 +58,7 @@ function LandingPage() {
 
   const handleLogout = () => {
     logout();
+    localStorage.removeItem("user");
     navigate("/");
   };
 
