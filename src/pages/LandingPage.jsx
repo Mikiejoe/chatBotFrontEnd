@@ -16,7 +16,7 @@ function LandingPage() {
   };
   const [chats, setChats] = React.useState([]);
   const userData = JSON.parse(localStorage.getItem("user"));
-  const prodUrl = "https://chat-bot-azure-chi.vercel.app/chat/";
+  const prodUrl = "https://chat-bot-azure-chi.vercel.app/chats/";
   // const prodUrl = "http://localhost:5000/chats/";
   const getChats = async()=>{
     const res = await fetch(prodUrl, {
