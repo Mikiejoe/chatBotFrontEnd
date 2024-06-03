@@ -83,6 +83,22 @@ function LandingPage() {
     console.log("chats",hasChats)
   },[])
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+
+const humanFriendlyDate = date.toLocaleString('en-US', {
+  // weekday: 'long', // "Monday"
+  year: 'numeric', // "2024"
+  month: 'long', // "June"
+  day: 'numeric', // "3"
+  hour: 'numeric', // "9"
+  minute: 'numeric', // "13"
+  second: 'numeric', // "36"
+  hour12: true // "AM/PM"
+});
+return humanFriendlyDate;
+}
+
   return (
     <div className="bg-gray-100 h-screen relative w-screen p">
       <div className="bg-blue-500 w-screen flex justify-end p-2 h-fit">
@@ -99,8 +115,8 @@ function LandingPage() {
           // avatar: chat.avatar,
           // alt: chat.title,
           id: chat._id,
-          title: chat._id,
-          // subtitle: chat.userId,
+          title: formatDate(chat.createdAt),
+          subtitle: chat.messages[chat.messages.length-1].content,
           date: chat.createdAt,
           // unread: chat.unread,
         }))}
