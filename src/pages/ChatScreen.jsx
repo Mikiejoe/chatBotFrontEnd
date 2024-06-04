@@ -19,8 +19,8 @@ function ChatScreen() {
     window.location.href = "/";
   }
   const { id } = location.state;
-  // const prodUrl = "http://localhost:5000/chats/" + id;
-  const prodUrl = "https://chat-bot-azure-chi.vercel.app/chats/"+id;
+  const prodUrl = "http://localhost:5000/chats/" + id;
+  // const prodUrl = "https://chat-bot-azure-chi.vercel.app/chats/"+id;
   
   useEffect(() => {
     getMessages();
@@ -100,7 +100,7 @@ function ChatScreen() {
           </div>
         </div>
       </div>
-      <div className="h-[78.3vh] flex flex-col w-screen" ref={chatContainerRef}>
+      <div className="h-[78.3vh] overflow-y-auto flex flex-col w-screen" ref={chatContainerRef}>
         {messages.map((message, index) => (
           
             <MessageCard key={index} message={message} />
