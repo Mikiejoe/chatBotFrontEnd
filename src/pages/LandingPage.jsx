@@ -16,8 +16,8 @@ function LandingPage() {
   };
   const [chats, setChats] = React.useState([]);
   const userData = JSON.parse(localStorage.getItem("user"));
-  // const prodUrl = "https://chat-bot-azure-chi.vercel.app/chats/";
-  const prodUrl = "http://localhost:5000/chats/";
+  const prodUrl = "https://chat-bot-azure-chi.vercel.app/chats/";
+  // const prodUrl = "http://localhost:5000/chats/";
   const getChats = async()=>{
     const res = await fetch(prodUrl, {
       method: "GET",
@@ -28,19 +28,23 @@ function LandingPage() {
     });
     if (!res.ok) console.log("error")
     const data = await res.json()
-  console.log(data.chats)
+  // console.log(data.chats)
   setChats(data.chats.reverse())
    if(data.chats.length>0){
-    console.log()
+    // console.log()
     setHasChats(true)
    }
   }
-
+  const progress = 12
+  const circleStyle = {
+    strokeDasharray: 283,
+    strokeDashoffset: 283 - (283 * progress) / 100,
+};
 
 
   const handleCreateChat = async () => {
     
-    console.log(userData.accessToken);
+    // console.log(userData.accessToken);
     const res = await fetch(prodUrl, {
       method: "POST",
       headers: {
@@ -50,7 +54,7 @@ function LandingPage() {
 
     if (res.ok) {
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       
       navigate(`/chats/${data.chat._id}`,{state:{id:data.chat._id}});
     }
@@ -76,12 +80,12 @@ function LandingPage() {
     setIsPopupOpen(false);
   };
   const handleChatClick = (data) => {
-    console.log("Chat clicked ", data);
+    // console.log("Chat clicked ", data);
     navigate(`/chats/${data.id}`, { state: data });
   };
   useEffect(()=>{
     getChats()
-    console.log("chats",hasChats)
+    // console.log("chats",hasChats)
   },[])
 
   const formatDate = (dateString) => {
@@ -106,7 +110,32 @@ return humanFriendlyDate;
         <MdLogout onClick={handleLogout} color="white" size={24} />
       </div>
       {
-        !hasChats && <div className="h-full bg-red-500 flex justify-center items-center"><p cl>create new chat</p></div>
+        !hasChats && <div className="flex justify-center items-center h-screen">
+          <div className="relative flex items-center justify-center w-24 h-24">
+            <svg className="animate-spin h-full w-full" viewBox="0 0 50 50">
+                <circle
+                    className="text-gray-300"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    fill="transparent"
+                    r="20"
+                    cx="25"
+                    cy="25"
+                />
+                <circle
+                    className="text-blue-500"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                    fill="transparent"
+                    r="20"
+                    cx="25"
+                    cy="25"
+                    strokeDasharray="31.4 31.4"
+                />
+            </svg>
+        </div>
+        </div>
       }
       <ChatList
         className="chat-list rounded-md m-2"

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import MessageCard from "../components/MessageCard";
 import { IoMdPerson, IoMdSend } from "react-icons/io";
+import { IoIosArrowBack } from "react-icons/io";
 import { MessageBox, Input } from "react-chat-elements";
 import Loading from "../components/Loading";
 import { useLocation } from "react-router-dom";
@@ -19,8 +20,8 @@ function ChatScreen() {
     window.location.href = "/";
   }
   const { id } = location.state;
-  const prodUrl = "http://localhost:5000/chats/" + id;
-  // const prodUrl = "https://chat-bot-azure-chi.vercel.app/chats/"+id;
+  // const prodUrl = "http://localhost:5000/chats/" + id;
+  const prodUrl = "https://chat-bot-azure-chi.vercel.app/chats/"+id;
   
   useEffect(() => {
     getMessages();
@@ -89,6 +90,7 @@ function ChatScreen() {
   return (
     <div className="h-[100vh] w-[100vw] overflow-x-hidden bg-gray-100">
       <div className="h-14 px-4 py-2 flex items-center gap-2 shadow-lg bg-gray-400">
+        <IoIosArrowBack size={26} onClick={()=>{window.history.back()}} />
         <div className="h-full bg-gray-300 w-[40px] overflow-hidden  rounded-full flex items-center justify-center">
           <IoMdPerson size={48} color="gray" />
         </div>
