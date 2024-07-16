@@ -9,18 +9,23 @@ function Login() {
   const {login} = useAuth()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [submit, setSubmit] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [color,setColor] = useState("bg-green-400")
+  const [message, setMessage] = useState("");
   const navigate = useNavigate()
   // console.log(baseUrl)
   
 
  
   const handleSubmit = async (e) => {
+    setSubmitting(true)
+    setColor("bg-green-400")
+    setMessage("Logging in...")
+    console.log(submitting)
     const baseProdUrl = "https://chat-bot-azure-chi.vercel.app"
-    // const baseProdUrl = "http://localhost:5000"
     e.preventDefault();
-    console.log(password,email);
     const res = await fetch(`${baseProdUrl}/auth/login`,{
       method: "POST",
       headers: {
@@ -32,23 +37,29 @@ function Login() {
       }),
     })
     const data = await res.json()
-    console.log(data)
     if(res.ok){
       login(data);
       navigate("/")
       // console.log(isAuthenticated);
     }
-    
+    setError(true);
+    setColor("bg-red-400")
+    setSubmitting(false);
+   
+    setMessage("Invalid email or password")
 
     // window.location.href = "/"
   };
 
   const handlePasswordChange = (e) => {
+    setError(false)
+    setSubmitting(false)
     setPassword(e.target.value);
-    console.log(password);
   };
   const handleEmailChange = (e) => {
-    console.log(submit);
+  setError(false)
+    setSubmitting(false)
+    
 
     setEmail(e.target.value);
   };
@@ -69,6 +80,11 @@ function Login() {
         <h1 className="text-xl font-bold font-serif">Login</h1>
       </div>
       <form onSubmit={handleSubmit} className="w-full space-y-4">
+      {(error||submitting) && (
+            <p className={`${submitting ? "bg-green-500" : "bg-red-500"} text-sm rounded-md p-2 text-center text-red-5-700`}>
+              {message}
+            </p>
+          )}
         <div className="h-10 w-full bg-red-500 rounded-md overflow-hidden">
           <input
             type="email"
@@ -95,11 +111,13 @@ function Login() {
             type="submit"
             onSubmit={handleSubmit}
             disabled={submit}
-            className={`h-full w-full font-semibold text-white shadow-lg ${
+            className={`h-full w-full flex justify-center items-center font-semibold text-white shadow-lg ${
               submit ? "bg-gray-400" : "bg-[#229912]"
             }  outline-none`}
           >
-            Login
+            {
+                submitting ?  <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-blue-100"></div> : "Login"
+              }
           </button>
         </div>
       </form>

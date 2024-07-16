@@ -2,24 +2,25 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 
-function Login() {
+function Register() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordError,setPasswordError] = useState(null)
-  const [emailError,setEmailError] = useState(null)
-  const [usernameError,setUsernameError] = useState(null)
-  const [loading, setLoading] = useState(true);
+  const [passwordError, setPasswordError] = useState(null);
+  const [emailError, setEmailError] = useState(null);
+  const [usernameError, setUsernameError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [submit, setSubmit] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     setError(false);
-    setEmailError(null)
-    setPasswordError(null)
-    setUsernameError(null)
+    setEmailError(null);
+    setPasswordError(null);
+    setUsernameError(null);
     let headersList = {
       Accept: "*/*",
       "Content-Type": "application/json",
@@ -31,57 +32,60 @@ function Login() {
       username: username,
     });
 
-    let response = await fetch("https://chat-bot-azure-chi.vercel.app/auth/signup", {
-      method: "POST",
-      body: bodyContent,
-      headers: headersList,
-    });
-    // const data = await res.json()
-    console.log(response);
+    let response = await fetch(
+      "https://chat-bot-azure-chi.vercel.app/auth/signup",
+      {
+        method: "POST",
+        body: bodyContent,
+        headers: headersList,
+      }
+    );
     const data = await response.json();
-    console.log(data);
-    let errorMessage = '';
-    if (!data.ok) {
+    let errorMessage = "";
+    if (!response.ok) {
       if (data.errors) {
-        data.errors.map(({ field, message }) =>
-   
-          {
-            if(field == "password") {
-              errorMessage = message;
-              // console.log(message)
-              // console.log(passwordError);
-              // setPasswordError(message)
-              // console.log(passwordError);
-              // return
-            }
-            if(field == "email") setEmailError(message)
-            if(field == "username") setUsernameError(message)
-              
+        data.errors.map(({ field, message }) => {
+          if (field == "password") {
+            errorMessage = message;
           }
-        );
-      }else{
+          if (field == "email") setEmailError(message);
+          if (field == "username") setUsernameError(message);
+        });
+      } else {
         errorMessage = data.message;
       }
       setMessage(errorMessage);
       setError(true);
-      console.log("out",errorMessage);
     }
-    // TODO: Implement register logic
+    if (response.ok) {
+      window.location.href = "/login,";
+    }
+    setLoading(false);
+    
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
-    console.log(password);
+    setError(false);
+    setEmailError(null);
+    setPasswordError(null);
+    setUsernameError(null);
   };
   const handleEmailChange = (e) => {
-    console.log(submit);
-
+    
     setEmail(e.target.value);
+    setError(false);
+    setEmailError(null);
+    setPasswordError(null);
+    setUsernameError(null);
   };
   const handleUsernameChange = (e) => {
-    console.log(submit);
 
     setUsername(e.target.value);
+    setError(false);
+    setEmailError(null);
+    setPasswordError(null);
+    setUsernameError(null);
   };
   useEffect(() => {
     if (email.length > 0 && password.length > 0) {
@@ -103,8 +107,13 @@ function Login() {
           </h1>
           <h1 className="text-xl font-bold font-serif">Register</h1>
         </div>
-        <form onSubmit={handleSubmit} className="w-full space-y-4">
-          {error && <p className="bg-red-300 text-sm rounded-md p-2 text-red-5-700">{message}</p>}
+        <form onSubmit={handleSubmit} className="w-full  space-y-4">
+       
+          {error && (
+            <p className="bg-red-300 text-sm rounded-md p-2 text-red-5-700">
+              {message}
+            </p>
+          )}
           <div className="h-10 w-full bg-red-500 rounded-md overflow-hidden">
             <input
               type="email"
@@ -131,7 +140,7 @@ function Login() {
           </div>
           <div className="h-10 w-full bg-red-500 rounded-md overflow-hidden">
             <input
-              type="text"
+              type="password"
               placeholder="Password"
               name="password"
               value={password}
@@ -144,12 +153,14 @@ function Login() {
             <button
               type="submit"
               onSubmit={handleSubmit}
-              disabled={submit}
-              className={`h-full w-full font-semibold text-white shadow-lg ${
+              disabled={submit && loading}
+              className={`h-full w-full flex items-center justify-center font-semibold text-white shadow-lg ${
                 submit ? "bg-gray-400" : "bg-[#229912]"
               }  outline-none`}
             >
-              Register
+              {
+                loading ?  <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-blue-500"></div> : "Register"
+              }
             </button>
           </div>
         </form>
@@ -174,4 +185,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

@@ -142,7 +142,7 @@ return humanFriendlyDate;
         onClick={({ ...props }) => handleChatClick(props)}
         dataSource={chats.map((chat) => ({
           // ...chat,
-          // avatar: chat.avatar,
+          avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdI6Ui7T7KXFkFUiDshFwj8iVdoGMMUkhtNg&s",
           // alt: chat.title,
           id: chat._id,
           title: formatDate(chat.createdAt),
