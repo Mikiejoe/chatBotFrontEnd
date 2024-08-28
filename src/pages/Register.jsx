@@ -58,7 +58,7 @@ function Register() {
       setError(true);
     }
     if (response.ok) {
-      window.location.href = "/login,";
+      window.location.href = "/login";
     }
     setLoading(false);
     
